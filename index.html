@@ -199,6 +199,17 @@
             font-weight: bold;
             margin-top: 5px;
         }
+        
+        /* إضافة تنسيق حقوق النشر */
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #777;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -303,6 +314,12 @@
                 <h3 style="margin-top: 25px; text-align: center;">التوقعات المستقبلية للرواتب</h3>
                 <div id="futureYearsResults"></div>
             </div>
+        </div>
+        
+        <!-- إضافة حقوق النشر في أسفل الصفحة -->
+        <div class="copyright">
+            تم إنشاء هذه الصفحة بواسطة المحامي محمد الشوحه<br>
+            جميع الحقوق محفوظة © 2023 - هذه الصفحة محمية بموجب قوانين حقوق النشر والملكية الفكرية
         </div>
     </div>
 
@@ -417,17 +434,17 @@
             for (let i = 1; i <= futureYears; i++) {
                 const futureYear = currentYear + i;
                 
-                // تحديث الخبرة مع مراعاة الحد الأقصى
+                // تحديث الخبرة مع مرور السنوات
+                currentExperience += 1;
+                
+                // التحقق من الحد الأقصى للخبرة المسموح بها
                 const maxAllowedExperience = getMaxAllowedExperience(futureYear);
-                currentExperience = Math.min(currentExperience + 1, maxAllowedExperience);
+                currentExperience = Math.min(currentExperience, maxAllowedExperience);
                 
                 currentSchoolYears += 1;
                 
-                // الخطوة 1: نضيف بدل الخبرة للعام الجديد (3 دنانير) فقط إذا لم نصل للحد الأقصى
-                let salaryWithNewExperience = previousYearSalary;
-                if (currentExperience > startExperience + i - 1) {
-                    salaryWithNewExperience += 3;
-                }
+                // الخطوة 1: نضيف بدل الخبرة للعام الجديد (3 دنانير)
+                let salaryWithNewExperience = previousYearSalary + 3;
                 
                 // الخطوة 2: نحسب الزيادة السنوية (5%) على المجموع الجديد
                 let annualIncrease = salaryWithNewExperience * 0.05;
