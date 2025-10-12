@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة راتب المعلمين في المدارس الخاصة</title>
+    <style>
+        /* نفس التنسيقات السابقة */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .calculator {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .help-text {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 25px;
+            border-right: 4px solid #667eea;
+            display: none;
+        }
+        
+        .result h3 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+        
+        .salary-amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c5530;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .breakdown {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .future-years {
+            margin-top: 20px;
+        }
+        
+        .year-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-right: 3px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .year-header {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .year-salary {
+            font-size: 18px;
+            color: #2c5530;
+            font-weight: bold;
+            text-align: center;
+            margin: 8px 0;
+        }
+        
+        .info-section {
+            background: #e8f4fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            border-right: 3px solid #2196F3;
+        }
+        
+        .info-section h4 {
+            margin-top: 0;
+            color: #0d47a1;
+        }
+        
+        @media (max-width: 600px) {
+            .calculator {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+        }
+        
+        .warning {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>حاسبة راتب المعلمين في المدارس الخاصة</h1>
+        
+        <div class="info-section">
+            <h4>معلومات مهمة قبل البدء:</h4>
+            <p>هذه الحاسبة تستند إلى العقد الموحد للمعلمين في المدارس الخاصة وتأخذ في الاعتبار:</p>
+            <ul>
+                <li>الحد الأدنى للأجور للسنة المحددة</li>
+                <li>بدل الخبرة (3 دنانير لكل سنة خبرة)</li>
+                <li>علاوة التعليم (10 دنانير للمعلمين فقط)</li>
+                <li>الزيادة السنوية (5% من الراتب الإجمالي للسنة السابقة بحد أقصى 40 ديناراً)</li>
+            </ul>
+            <p><strong>طريقة الحساب التراكمي:</strong></p>
+            <ol>
+                <li>نبدأ من الراتب الإجمالي للسنة السابقة</li>
+                <li>نضيف بدل الخبرة للعام الجديد (3 دنانير)</li>
+                <li>نحسب الزيادة السنوية (5%) على المجموع الجديد</li>
+            </ol>
+            <p class="warning">ملاحظة هامة: سنوات الخبرة تحتسب فقط من عام 2018 فما بعد.</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="year">اختر السنة:</label>
+            <select id="year">
+                <option value="2030">2030 (الحد الأدنى: 290 دينار)</option>
+                <option value="2029">2029 (الحد الأدنى: 290 دينار)</option>
+                <option value="2028">2028 (الحد الأدنى: 290 دينار)</option>
+                <option value="2027">2027 (الحد الأدنى: 290 دينار)</option>
+                <option value="2026">2026 (الحد الأدنى: 290 دينار)</option>
+                <option value="2025">2025 (الحد الأدنى: 290 دينار)</option>
+                <option value="2024">2024 (الحد الأدنى: 260 دينار)</option>
+                <option value="2023">2023 (الحد الأدنى: 260 دينار)</option>
+                <option value="2022">2022 (الحد الأدنى: 260 دينار)</option>
+                <option value="2021">2021 (الحد الأدنى: 260 دينار)</option>
+                <option value="2020">2020 (الحد الأدنى: 220 دينار)</option>
+                <option value="2019">2019 (الحد الأدنى: 220 دينار)</option>
+                <option value="2018">2018 (الحد الأدنى: 220 دينار)</option>
+            </select>
+            <div class="help-text">اختر السنة التي تريد البدء بحساب الراتب منها</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="experience">إجمالي سنوات خبرتك في جميع المدارس (كامله):</label>
+            <input type="number" id="experience" min="0" placeholder="0">
+            <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في جميع المدارس الخاصة مجتمعة. كل سنة خبرة = 3 دنانير تضاف للراتب.</div>
+            <div class="warning" id="experienceWarning" style="display: none;"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="schoolYears">عدد السنوات التي عملت فيها في المدرسة الحالية:</label>
+            <input type="number" id="schoolYears" min="0" placeholder="0">
+            <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في مدرستك الحالية فقط (لا تحتسب سنوات المدارس السابقة). الزيادة السنوية (5%) تستحق بعد إكمال سنة واحدة في المدرسة الحالية.</div>
+        </div>
+        
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="isTeacher" checked>
+                <label for="isTeacher">معلم/معلمة (يستحق علاوة التعليم)</label>
+            </div>
+            <div class="help-text">اختر هذا الخيار إذا كنت معلم/معلمة لتحصل على علاوة التعليم (10 دنانير). إذا كنت إدارياً فلا تختر هذا الخيار.</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="futureYears">عدد السنوات المستقبلية للحساب:</label>
+            <input type="number" id="futureYears" min="1" max="10" value="3">
+            <div class="help-text">أدخل عدد السنوات التي تريد رؤية توقعات الراتب فيها مستقبلاً (من 1 إلى 10 سنوات)</div>
+        </div>
+        
+        <button class="btn" onclick="calculateSalary()">احسب الرواتب الحالية والمستقبلية</button>
+        
+        <div class="result" id="result">
+            <h3>الراتب الشهري الإجمالي</h3>
+            <div class="salary-amount" id="salaryAmount">0 دينار</div>
+            
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <span>الراتب الأساسي:</span>
+                    <span id="baseSalary">0 دينار</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>بدل الخبرة:</span>
+                    <span id="experienceAllowance">0 دينار</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>علاوة التعليم:</span>
+                    <span id="educationAllowance">0 دينار</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>الزيادة السنوية (5%):</span>
+                    <span id="annualIncrease">0 دينار</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>الراتب الإجمالي:</span>
+                    <span id="totalSalary">0 دينار</span>
+                </div>
+            </div>
+            
+            <div class="future-years" id="futureYearsSection" style="display: none;">
+                <h3 style="margin-top: 25px; text-align: center;">التوقعات المستقبلية للرواتب</h3>
+                <div id="futureYearsResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات الحد الأدنى للأجور حسب السنة
+        const minWages = {
+            '2018': 220,
+            '2019': 220,
+            '2020': 220,
+            '2021': 260,
+            '2022': 260,
+            '2023': 260,
+            '2024': 260,
+            '2025': 290,
+            '2026': 290,
+            '2027': 290,
+            '2028': 290,
+            '2029': 290,
+            '2030': 290
+        };
+        
+        // دالة لحساب الحد الأقصى للخبرة المسموح بها
+        function getMaxAllowedExperience(year) {
+            const currentYear = parseInt(year);
+            // الحد الأقصى للخبرة هو عدد السنوات من 2018 إلى السنة الحالية
+            return Math.max(0, currentYear - 2018);
+        }
+        
+        // دالة للتحقق من صحة سنوات الخبرة
+        function validateExperience(year, experience) {
+            const maxAllowed = getMaxAllowedExperience(year);
+            if (experience > maxAllowed) {
+                document.getElementById('experienceWarning').textContent = 
+                    `تنبيه: سيتم احتساب ${maxAllowed} سنوات فقط (الحد الأقصى المسموح به من 2018 إلى ${year})`;
+                document.getElementById('experienceWarning').style.display = 'block';
+                return maxAllowed;
+            } else {
+                document.getElementById('experienceWarning').style.display = 'none';
+                return experience;
+            }
+        }
+        
+        function calculateSalary() {
+            // الحصول على القيم من النموذج
+            const startYear = parseInt(document.getElementById('year').value);
+            let experience = parseInt(document.getElementById('experience').value) || 0;
+            const schoolYears = parseInt(document.getElementById('schoolYears').value) || 0;
+            const isTeacher = document.getElementById('isTeacher').checked;
+            const futureYears = parseInt(document.getElementById('futureYears').value) || 3;
+            
+            // التحقق من صحة سنوات الخبرة وتعديلها إذا لزم الأمر
+            experience = validateExperience(startYear, experience);
+            
+            // حساب الراتب للسنة الحالية
+            const currentSalary = calculateCurrentYearSalary(startYear, experience, schoolYears, isTeacher);
+            
+            // حساب الرواتب المستقبلية
+            calculateFutureSalaries(startYear, experience, schoolYears, isTeacher, futureYears, currentSalary);
+            
+            // إظهار قسم النتائج
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        function calculateCurrentYearSalary(year, experience, schoolYears, isTeacher) {
+            // الحصول على الحد الأدنى للأجور للسنة المحددة
+            const baseSalary = minWages[year] || minWages['2025'];
+            
+            // حساب بدل الخبرة
+            const experienceAllowance = experience * 3;
+            
+            // حساب علاوة التعليم
+            const educationAllowance = isTeacher ? 10 : 0;
+            
+            // حساب الراتب الإجمالي قبل الزيادة السنوية
+            const salaryBeforeIncrease = baseSalary + experienceAllowance + educationAllowance;
+            
+            // حساب الزيادة السنوية (5%) إذا أكمل سنة على الأقل في المدرسة الحالية
+            let annualIncrease = 0;
+            if (schoolYears >= 1) {
+                annualIncrease = salaryBeforeIncrease * 0.05;
+                // تطبيق الحد الأقصى للزيادة السنوية (40 دينار)
+                if (annualIncrease > 40) {
+                    annualIncrease = 40;
+                }
+            }
+            
+            // حساب الراتب الإجمالي النهائي
+            const totalSalary = salaryBeforeIncrease + annualIncrease;
+            
+            // عرض النتائج للسنة الحالية
+            document.getElementById('baseSalary').textContent = baseSalary + ' دينار';
+            document.getElementById('experienceAllowance').textContent = experienceAllowance + ' دينار';
+            document.getElementById('educationAllowance').textContent = educationAllowance + ' دينار';
+            document.getElementById('annualIncrease').textContent = annualIncrease.toFixed(2) + ' دينار';
+            document.getElementById('totalSalary').textContent = totalSalary.toFixed(2) + ' دينار';
+            document.getElementById('salaryAmount').textContent = totalSalary.toFixed(2) + ' دينار (' + year + ')';
+            
+            return totalSalary;
+        }
+        
+        function calculateFutureSalaries(startYear, startExperience, startSchoolYears, isTeacher, futureYears, currentSalary) {
+            const futureYearsResults = document.getElementById('futureYearsResults');
+            futureYearsResults.innerHTML = '';
+            
+            let currentYear = parseInt(startYear);
+            let currentExperience = startExperience;
+            let currentSchoolYears = startSchoolYears;
+            
+            // نبدأ من الراتب الحالي
+            let previousYearSalary = currentSalary;
+            
+            for (let i = 1; i <= futureYears; i++) {
+                const futureYear = currentYear + i;
+                
+                // تحديث الخبرة مع مراعاة الحد الأقصى
+                const maxAllowedExperience = getMaxAllowedExperience(futureYear);
+                currentExperience = Math.min(currentExperience + 1, maxAllowedExperience);
+                
+                currentSchoolYears += 1;
+                
+                // الخطوة 1: نضيف بدل الخبرة للعام الجديد (3 دنانير) فقط إذا لم نصل للحد الأقصى
+                let salaryWithNewExperience = previousYearSalary;
+                if (currentExperience > startExperience + i - 1) {
+                    salaryWithNewExperience += 3;
+                }
+                
+                // الخطوة 2: نحسب الزيادة السنوية (5%) على المجموع الجديد
+                let annualIncrease = salaryWithNewExperience * 0.05;
+                if (annualIncrease > 40) {
+                    annualIncrease = 40;
+                }
+                
+                // الخطوة 3: الراتب النهائي للسنة الجديدة
+                const totalSalary = salaryWithNewExperience + annualIncrease;
+                
+                // تحديث الراتب السابق للحساب التراكمي في السنة التالية
+                previousYearSalary = totalSalary;
+                
+                // إنشاء بطاقة السنة المستقبلية
+                const yearCard = document.createElement('div');
+                yearCard.className = 'year-card';
+                
+                yearCard.innerHTML = `
+                    <div class="year-header">
+                        <span>سنة ${futureYear}</span>
+                        <span>الخبرة: ${currentExperience} سنة</span>
+                    </div>
+                    <div class="year-salary">${totalSalary.toFixed(2)} دينار</div>
+                    <div style="font-size: 14px; color: #666;">
+                        <div>الراتب السابق: ${previousYearSalary.toFixed(2)} دينار</div>
+                        <div>بدل الخبرة الجديد: 3 دنانير</div>
+                        <div>المجموع قبل الزيادة: ${salaryWithNewExperience.toFixed(2)} دينار</div>
+                        <div>الزيادة السنوية (5%): ${annualIncrease.toFixed(2)} دينار</div>
+                        <div style="margin-top: 8px; font-weight: bold; color: #333;">السنوات في المدرسة: ${currentSchoolYears} سنة</div>
+                    </div>
+                `;
+                
+                futureYearsResults.appendChild(yearCard);
+            }
+            
+            // إظهار قسم السنوات المستقبلية
+            document.getElementById('futureYearsSection').style.display = 'block';
+        }
+        
+        // حساب الراتب تلقائيًا عند تغيير أي حقل
+        document.getElementById('year').addEventListener('change', calculateSalary);
+        document.getElementById('experience').addEventListener('input', calculateSalary);
+        document.getElementById('schoolYears').addEventListener('input', calculateSalary);
+        document.getElementById('isTeacher').addEventListener('change', calculateSalary);
+        document.getElementById('futureYears').addEventListener('input', calculateSalary);
+        
+        // حساب الراتب الأولي عند تحميل الصفحة
+        window.onload = calculateSalary;
+    </script>
+</body>
+</html>
