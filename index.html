@@ -242,6 +242,14 @@
             color: #777;
             line-height: 1.6;
         }
+        
+        /* إضافة تنسيق الجملة الجديدة */
+        .small-red-text {
+            font-size: 13px;
+            color: #d32f2f;
+            margin-top: 5px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -296,9 +304,10 @@
         </div>
         
         <div class="form-group">
-            <label for="schoolYears">عدد السنوات التي عملت فيها في المدرسة الحالية:</label>
+            <label for="schoolYears">احتساب الزياده السنويه:</label>
             <input type="number" id="schoolYears" min="0" placeholder="0" class="tabable-field">
-            <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في مدرستك الحالية فقط (لا تحتسب سنوات المدارس السابقة). الزيادة السنوية (5%) تستحق بعد إكمال سنة واحدة في المدرسة الحالية.</div>
+            <div class="small-red-text">عدد السنوات التي عملت فيها في مدرستك الحالية فقط.</div>
+            <div class="help-text">الزيادة السنوية (5%) تستحق بعد إكمال سنة واحدة في المدرسة الحالية.</div>
         </div>
         
         <div class="form-group">
