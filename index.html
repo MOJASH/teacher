@@ -27,7 +27,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             padding: 30px;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
         }
         
         h1 {
@@ -142,6 +142,26 @@
             color: #333;
         }
         
+        .social-security {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-right: 3px solid #4a90e2;
+        }
+        
+        .social-security h4 {
+            margin-top: 0;
+            color: #1a4d80;
+            text-align: center;
+        }
+        
+        .social-security-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+        }
+        
         .future-years {
             margin-top: 20px;
         }
@@ -169,6 +189,14 @@
             font-weight: bold;
             text-align: center;
             margin: 8px 0;
+        }
+        
+        .year-social-security {
+            background: #f0f7ff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
         }
         
         .info-section {
@@ -200,6 +228,10 @@
             margin-top: 5px;
         }
         
+        .required {
+            color: #d32f2f;
+        }
+        
         /* إضافة تنسيق حقوق النشر */
         .copyright {
             text-align: center;
@@ -224,6 +256,7 @@
                 <li>بدل الخبرة (3 دنانير لكل سنة خبرة)</li>
                 <li>علاوة التعليم (10 دنانير للمعلمين فقط)</li>
                 <li>الزيادة السنوية (5% من الراتب الإجمالي للسنة السابقة بحد أقصى 40 ديناراً)</li>
+                <li>اشتراكات الضمان الاجتماعي (21.75% من الراتب الإجمالي)</li>
             </ul>
             <p><strong>طريقة الحساب التراكمي:</strong></p>
             <ol>
@@ -235,8 +268,9 @@
         </div>
         
         <div class="form-group">
-            <label for="year">اختر السنة:</label>
-            <select id="year">
+            <label for="year">اختر السنة: <span class="required">*</span></label>
+            <select id="year" required>
+                <option value="">-- اختر السنة --</option>
                 <option value="2030">2030 (الحد الأدنى: 290 دينار)</option>
                 <option value="2029">2029 (الحد الأدنى: 290 دينار)</option>
                 <option value="2028">2028 (الحد الأدنى: 290 دينار)</option>
@@ -256,20 +290,20 @@
         
         <div class="form-group">
             <label for="experience">إجمالي سنوات خبرتك في جميع المدارس (كامله):</label>
-            <input type="number" id="experience" min="0" placeholder="0">
+            <input type="number" id="experience" min="0" placeholder="0" class="tabable-field">
             <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في جميع المدارس الخاصة مجتمعة. كل سنة خبرة = 3 دنانير تضاف للراتب.</div>
             <div class="warning" id="experienceWarning" style="display: none;"></div>
         </div>
         
         <div class="form-group">
             <label for="schoolYears">عدد السنوات التي عملت فيها في المدرسة الحالية:</label>
-            <input type="number" id="schoolYears" min="0" placeholder="0">
+            <input type="number" id="schoolYears" min="0" placeholder="0" class="tabable-field">
             <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في مدرستك الحالية فقط (لا تحتسب سنوات المدارس السابقة). الزيادة السنوية (5%) تستحق بعد إكمال سنة واحدة في المدرسة الحالية.</div>
         </div>
         
         <div class="form-group">
             <div class="checkbox-group">
-                <input type="checkbox" id="isTeacher" checked>
+                <input type="checkbox" id="isTeacher" checked class="tabable-field">
                 <label for="isTeacher">معلم/معلمة (يستحق علاوة التعليم)</label>
             </div>
             <div class="help-text">اختر هذا الخيار إذا كنت معلم/معلمة لتحصل على علاوة التعليم (10 دنانير). إذا كنت إدارياً فلا تختر هذا الخيار.</div>
@@ -277,11 +311,11 @@
         
         <div class="form-group">
             <label for="futureYears">عدد السنوات المستقبلية للحساب:</label>
-            <input type="number" id="futureYears" min="1" max="10" value="3">
+            <input type="number" id="futureYears" min="1" max="10" value="3" class="tabable-field">
             <div class="help-text">أدخل عدد السنوات التي تريد رؤية توقعات الراتب فيها مستقبلاً (من 1 إلى 10 سنوات)</div>
         </div>
         
-        <button class="btn" onclick="calculateSalary()">احسب الرواتب الحالية والمستقبلية</button>
+        <button class="btn" onclick="calculateSalary()" id="calculateBtn">احسب الرواتب الحالية والمستقبلية</button>
         
         <div class="result" id="result">
             <h3>الراتب الشهري الإجمالي</h3>
@@ -307,6 +341,26 @@
                 <div class="breakdown-item">
                     <span>الراتب الإجمالي:</span>
                     <span id="totalSalary">0 دينار</span>
+                </div>
+            </div>
+            
+            <div class="social-security">
+                <h4>اشتراكات الضمان الاجتماعي</h4>
+                <div class="social-security-item">
+                    <span>الاشتراك الكلي (21.75%):</span>
+                    <span id="totalSocialSecurity">0 دينار</span>
+                </div>
+                <div class="social-security-item">
+                    <span>حصة العامل (7.5%):</span>
+                    <span id="employeeShare">0 دينار</span>
+                </div>
+                <div class="social-security-item">
+                    <span>حصة صاحب العمل (14.25%):</span>
+                    <span id="employerShare">0 دينار</span>
+                </div>
+                <div class="social-security-item">
+                    <span>صافي الراتب بعد خصم الضمان:</span>
+                    <span id="netSalary">0 دينار</span>
                 </div>
             </div>
             
@@ -341,8 +395,55 @@
             '2030': 290
         };
         
+        // نسب الضمان الاجتماعي
+        const socialSecurityRates = {
+            total: 0.2175,    // 21.75%
+            employee: 0.075,  // 7.5%
+            employer: 0.1425  // 14.25%
+        };
+        
+        // الحقول التي يمكن التنقل بينها باستخدام Enter
+        const tabableFields = [
+            'year', 'experience', 'schoolYears', 'isTeacher', 'futureYears'
+        ];
+        
+        // دالة للانتقال للحقل التالي عند الضغط على Enter
+        function handleEnterKey(event, currentIndex) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                
+                // إذا كنا في الحقل الأخير، ننقر على زر الحساب
+                if (currentIndex === tabableFields.length - 1) {
+                    document.getElementById('calculateBtn').click();
+                } else {
+                    // الانتقال للحقل التالي
+                    const nextField = document.getElementById(tabableFields[currentIndex + 1]);
+                    if (nextField) {
+                        nextField.focus();
+                        // إذا كان الحقل التالي هو checkbox، نحدده
+                        if (nextField.type === 'checkbox') {
+                            nextField.checked = !nextField.checked;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // تهيئة أحداث لوحة المفاتيح للحقول
+        function initKeyboardNavigation() {
+            tabableFields.forEach((fieldId, index) => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.addEventListener('keydown', (event) => {
+                        handleEnterKey(event, index);
+                    });
+                }
+            });
+        }
+        
         // دالة لحساب الحد الأقصى للخبرة المسموح بها
         function getMaxAllowedExperience(year) {
+            if (!year) return 0;
             const currentYear = parseInt(year);
             // الحد الأقصى للخبرة هو عدد السنوات من 2018 إلى السنة الحالية
             return Math.max(0, currentYear - 2018);
@@ -362,7 +463,25 @@
             }
         }
         
+        // دالة لحساب اشتراكات الضمان الاجتماعي
+        function calculateSocialSecurity(totalSalary) {
+            return {
+                total: totalSalary * socialSecurityRates.total,
+                employee: totalSalary * socialSecurityRates.employee,
+                employer: totalSalary * socialSecurityRates.employer,
+                net: totalSalary - (totalSalary * socialSecurityRates.employee)
+            };
+        }
+        
         function calculateSalary() {
+            // التحقق من أن السنة محددة
+            const yearSelect = document.getElementById('year');
+            if (!yearSelect.value) {
+                alert('يرجى اختيار السنة أولاً');
+                yearSelect.focus();
+                return;
+            }
+            
             // الحصول على القيم من النموذج
             const startYear = parseInt(document.getElementById('year').value);
             let experience = parseInt(document.getElementById('experience').value) || 0;
@@ -409,6 +528,9 @@
             // حساب الراتب الإجمالي النهائي
             const totalSalary = salaryBeforeIncrease + annualIncrease;
             
+            // حساب اشتراكات الضمان الاجتماعي
+            const socialSecurity = calculateSocialSecurity(totalSalary);
+            
             // عرض النتائج للسنة الحالية
             document.getElementById('baseSalary').textContent = baseSalary + ' دينار';
             document.getElementById('experienceAllowance').textContent = experienceAllowance + ' دينار';
@@ -416,6 +538,12 @@
             document.getElementById('annualIncrease').textContent = annualIncrease.toFixed(2) + ' دينار';
             document.getElementById('totalSalary').textContent = totalSalary.toFixed(2) + ' دينار';
             document.getElementById('salaryAmount').textContent = totalSalary.toFixed(2) + ' دينار (' + year + ')';
+            
+            // عرض نتائج الضمان الاجتماعي
+            document.getElementById('totalSocialSecurity').textContent = socialSecurity.total.toFixed(2) + ' دينار';
+            document.getElementById('employeeShare').textContent = socialSecurity.employee.toFixed(2) + ' دينار';
+            document.getElementById('employerShare').textContent = socialSecurity.employer.toFixed(2) + ' دينار';
+            document.getElementById('netSalary').textContent = socialSecurity.net.toFixed(2) + ' دينار';
             
             return totalSalary;
         }
@@ -455,6 +583,9 @@
                 // الخطوة 3: الراتب النهائي للسنة الجديدة
                 const totalSalary = salaryWithNewExperience + annualIncrease;
                 
+                // حساب اشتراكات الضمان الاجتماعي للسنة المستقبلية
+                const socialSecurity = calculateSocialSecurity(totalSalary);
+                
                 // تحديث الراتب السابق للحساب التراكمي في السنة التالية
                 previousYearSalary = totalSalary;
                 
@@ -475,6 +606,25 @@
                         <div>الزيادة السنوية (5%): ${annualIncrease.toFixed(2)} دينار</div>
                         <div style="margin-top: 8px; font-weight: bold; color: #333;">السنوات في المدرسة: ${currentSchoolYears} سنة</div>
                     </div>
+                    <div class="year-social-security">
+                        <div style="font-weight: bold; margin-bottom: 5px;">اشتراكات الضمان الاجتماعي:</div>
+                        <div class="social-security-item">
+                            <span>الاشتراك الكلي (21.75%):</span>
+                            <span>${socialSecurity.total.toFixed(2)} دينار</span>
+                        </div>
+                        <div class="social-security-item">
+                            <span>حصة العامل (7.5%):</span>
+                            <span>${socialSecurity.employee.toFixed(2)} دينار</span>
+                        </div>
+                        <div class="social-security-item">
+                            <span>حصة صاحب العمل (14.25%):</span>
+                            <span>${socialSecurity.employer.toFixed(2)} دينار</span>
+                        </div>
+                        <div class="social-security-item" style="font-weight: bold;">
+                            <span>صافي الراتب:</span>
+                            <span>${socialSecurity.net.toFixed(2)} دينار</span>
+                        </div>
+                    </div>
                 `;
                 
                 futureYearsResults.appendChild(yearCard);
@@ -491,8 +641,10 @@
         document.getElementById('isTeacher').addEventListener('change', calculateSalary);
         document.getElementById('futureYears').addEventListener('input', calculateSalary);
         
-        // حساب الراتب الأولي عند تحميل الصفحة
-        window.onload = calculateSalary;
+        // تهيئة التنقل بلوحة المفاتيح عند تحميل الصفحة
+        window.onload = function() {
+            initKeyboardNavigation();
+        };
     </script>
 </body>
 </html>
