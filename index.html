@@ -3,657 +3,1110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة راتب المعلمين في المدارس الخاصة</title>
+    <title>حاسبة الحقوق العمالية - قانون العمل الأردني</title>
     <style>
-        /* نفس التنسيقات السابقة */
+        :root {
+            --primary-color: #0d1b5e; /* أزرق غامق جداً */
+            --secondary-color: #f8f9fa;
+            --accent-color: #d4af37; /* ذهبي */
+            --text-color: #333;
+            --border-color: #ddd;
+            --gold-light: #f0e6d2;
+            --blue-light: #e8f4fd;
+        }
+        
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            position: relative;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow-x: hidden;
         }
         
-        .calculator {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 30px;
+        /* خلفية الجسيمات المتحركة */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 750px;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0d1b5e, #1a237e, #283593, #303f9f);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #1a237e);
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .creator-info {
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            font-size: 10px;
+            opacity: 0.7;
+            color: var(--gold-light);
         }
         
         h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 15px;
+            margin-bottom: 5px;
+            font-size: 22px;
+            color: white;
         }
         
-        .form-group {
-            margin-bottom: 20px;
+        .header-subtitle {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--gold-light);
+        }
+        
+        .header-instruction {
+            font-size: 12px;
+            opacity: 0.9;
+            color: var(--gold-light);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-right: 3px solid var(--accent-color);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            font-size: 16px;
+        }
+        
+        .input-group {
+            margin-bottom: 12px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
+            margin-bottom: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            color: var(--primary-color);
         }
         
-        .help-text {
-            font-size: 14px;
-            color: #777;
-            margin-top: 5px;
-            font-weight: normal;
-        }
-        
-        select, input {
+        input, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
             transition: border-color 0.3s;
         }
         
-        select:focus, input:focus {
-            border-color: #667eea;
+        input:focus, select:focus {
+            border-color: var(--accent-color);
             outline: none;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+        
+        .compact-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .compact-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .service-duration-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .service-duration-group .input-group {
+            flex: 1;
         }
         
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 8px;
         }
         
         .checkbox-group input {
             width: auto;
+            margin-left: 8px;
         }
         
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s;
+        .checkbox-group.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .contract-details {
+            display: none;
+            background-color: var(--blue-light);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            border-right: 4px solid var(--primary-color);
+            font-size: 13px;
+        }
+        
+        .notice-info {
+            background-color: var(--blue-light);
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+            border-right: 4px solid var(--primary-color);
+            display: none;
+            font-size: 12px;
+        }
+
+        .service-note {
+            background-color: #fff8e1;
+            color: #b8860b;
+            padding: 10px;
+            border-radius: 4px;
             margin-top: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .result {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 25px;
-            border-right: 4px solid #667eea;
+            border-right: 4px solid var(--accent-color);
+            font-size: 12px;
             display: none;
         }
         
-        .result h3 {
-            margin-top: 0;
-            color: #333;
-            text-align: center;
-        }
-        
-        .salary-amount {
-            font-size: 28px;
+        button {
+            background: linear-gradient(135deg, var(--primary-color), #1a237e);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #2c5530;
-            text-align: center;
-            margin: 15px 0;
         }
         
-        .breakdown {
-            background: white;
+        button:hover {
+            background: linear-gradient(135deg, #1a237e, var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #5a6268, #6c757d);
+        }
+        
+        .result-section {
+            background-color: white;
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-top: 15px;
+            display: none;
+            border-right: 3px solid var(--accent-color);
         }
         
-        .breakdown-item {
+        .result-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .breakdown-item:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .social-security {
-            background: #f0f7ff;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            border-right: 3px solid #4a90e2;
-        }
-        
-        .social-security h4 {
-            margin-top: 0;
-            color: #1a4d80;
-            text-align: center;
-        }
-        
-        .social-security-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-        }
-        
-        .future-years {
-            margin-top: 20px;
-        }
-        
-        .year-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-right: 3px solid #667eea;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .year-header {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .year-salary {
-            font-size: 18px;
-            color: #2c5530;
-            font-weight: bold;
-            text-align: center;
-            margin: 8px 0;
-        }
-        
-        .year-social-security {
-            background: #f0f7ff;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
+            border-bottom: 1px solid var(--border-color);
             font-size: 14px;
         }
         
-        .info-section {
-            background: #e8f4fd;
-            border-radius: 8px;
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--primary-color);
+            background-color: var(--gold-light);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .explanation {
+            display: none; /* إخفاء قسم شرح الحسابات */
+        }
+
+        .social-security-details {
+            display: none;
+            background-color: var(--blue-light);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            border-right: 4px solid var(--primary-color);
+            font-size: 13px;
+        }
+
+        .annual-leave-details {
+            background-color: var(--blue-light);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            border-right: 4px solid var(--primary-color);
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
             padding: 15px;
-            margin: 20px 0;
-            border-right: 3px solid #2196F3;
+            background: linear-gradient(135deg, var(--primary-color), #1a237e);
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            border-top: 3px solid var(--accent-color);
         }
         
-        .info-section h4 {
-            margin-top: 0;
-            color: #0d47a1;
+        .copyright {
+            font-size: 11px;
+            margin-top: 8px;
+            opacity: 0.8;
+            color: var(--gold-light);
         }
         
-        @media (max-width: 600px) {
-            .calculator {
-                padding: 20px;
+        .law-reference {
+            font-size: 12px;
+            margin-top: 4px;
+            color: var(--gold-light);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .print-btn {
+            background: linear-gradient(135deg, var(--accent-color), #b8941f);
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .print-btn:hover {
+            background: linear-gradient(135deg, #b8941f, var(--accent-color));
+        }
+
+        .result-note {
+            background-color: var(--blue-light);
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 4px;
+            border-right: 4px solid var(--primary-color);
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* تنبيه الاستشارة القانونية */
+        .legal-notice {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
             }
             
-            h1 {
-                font-size: 20px;
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-section {
+                padding: 12px;
+            }
+            
+            .creator-info {
+                position: static;
+                transform: none;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+            
+            .service-duration-group {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .compact-row, .compact-row-3 {
+                grid-template-columns: 1fr;
             }
         }
-        
-        .warning {
-            color: #d32f2f;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        
-        .required {
-            color: #d32f2f;
-        }
-        
-        /* إضافة تنسيق حقوق النشر */
-        .copyright {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 12px;
-            color: #777;
-            line-height: 1.6;
-        }
-        
-        /* إضافة تنسيق الجملة الجديدة */
-        .small-red-text {
-            font-size: 13px;
-            color: #d32f2f;
-            margin-top: 5px;
-            font-weight: normal;
+
+        @media print {
+            #particles-js, button, .legal-notice, .footer {
+                display: none !important;
+            }
+            
+            .form-section, .result-section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background-color: white;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h1>حاسبة راتب المعلمين في المدارس الخاصة</h1>
+    <!-- خلفية الجسيمات المتحركة -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="creator-info">أنشئت بواسطة: المحامي محمد الشوحه</div>
         
-        <div class="info-section">
-            <h4>معلومات مهمة قبل البدء:</h4>
-            <p>هذه الحاسبة تستند إلى العقد الموحد للمعلمين في المدارس الخاصة وتأخذ في الاعتبار:</p>
-            <ul>
-                <li>الحد الأدنى للأجور للسنة المحددة</li>
-                <li>بدل الخبرة (3 دنانير لكل سنة خبرة)</li>
-                <li>علاوة التعليم (10 دنانير للمعلمين فقط)</li>
-                <li>الزيادة السنوية (5% من الراتب الإجمالي للسنة السابقة بحد أقصى 40 ديناراً)</li>
-                <li>اشتراكات الضمان الاجتماعي (21.75% من الراتب الإجمالي)</li>
-            </ul>
-            <p><strong>طريقة الحساب التراكمي:</strong></p>
-            <ol>
-                <li>نبدأ من الراتب الإجمالي للسنة السابقة</li>
-                <li>نضيف بدل الخبرة للعام الجديد (3 دنانير)</li>
-                <li>نحسب الزيادة السنوية (5%) على المجموع الجديد</li>
-            </ol>
-            <p class="warning">ملاحظة هامة: سنوات الخبرة تحتسب فقط من عام 2018 فما بعد.</p>
-        </div>
+        <header>
+            <h1>حاسبة الحقوق العمالية</h1>
+            <p class="header-subtitle">بناءً على قانون العمل الأردني رقم 8 لسنة 1996 وتعديلاته</p>
+            <p class="header-instruction">أدخل معلوماتك لحساب مستحقاتك</p>
+        </header>
         
-        <div class="form-group">
-            <label for="year">اختر السنة: <span class="required">*</span></label>
-            <select id="year" required>
-                <option value="">-- اختر السنة --</option>
-                <option value="2030">2030 (الحد الأدنى: 290 دينار)</option>
-                <option value="2029">2029 (الحد الأدنى: 290 دينار)</option>
-                <option value="2028">2028 (الحد الأدنى: 290 دينار)</option>
-                <option value="2027">2027 (الحد الأدنى: 290 دينار)</option>
-                <option value="2026">2026 (الحد الأدنى: 290 دينار)</option>
-                <option value="2025">2025 (الحد الأدنى: 290 دينار)</option>
-                <option value="2024">2024 (الحد الأدنى: 260 دينار)</option>
-                <option value="2023">2023 (الحد الأدنى: 260 دينار)</option>
-                <option value="2022">2022 (الحد الأدنى: 260 دينار)</option>
-                <option value="2021">2021 (الحد الأدنى: 260 دينار)</option>
-                <option value="2020">2020 (الحد الأدنى: 220 دينار)</option>
-                <option value="2019">2019 (الحد الأدنى: 220 دينار)</option>
-                <option value="2018">2018 (الحد الأدنى: 220 دينار)</option>
-            </select>
-            <div class="help-text">اختر السنة التي تريد البدء بحساب الراتب منها</div>
-        </div>
-        
-        <div class="form-group">
-            <label for="experience">إجمالي سنوات خبرتك في جميع المدارس (كامله):</label>
-            <input type="number" id="experience" min="0" placeholder="0" class="tabable-field">
-            <div class="help-text">أدخل عدد السنوات الكاملة التي عملت فيها في جميع المدارس الخاصة مجتمعة. كل سنة خبرة = 3 دنانير تضاف للراتب.</div>
-            <div class="warning" id="experienceWarning" style="display: none;"></div>
-        </div>
-        
-        <div class="form-group">
-            <label for="schoolYears">احتساب الزياده السنويه:</label>
-            <input type="number" id="schoolYears" min="0" placeholder="0" class="tabable-field">
-            <div class="small-red-text">عدد السنوات التي عملت فيها في مدرستك الحالية فقط.</div>
-            <div class="help-text">الزيادة السنوية (5%) تستحق بعد إكمال سنة واحدة في المدرسة الحالية.</div>
-        </div>
-        
-        <div class="form-group">
-            <div class="checkbox-group">
-                <input type="checkbox" id="isTeacher" checked class="tabable-field">
-                <label for="isTeacher">معلم/معلمة (يستحق علاوة التعليم)</label>
+        <form id="rightsCalculator">
+            <div class="form-grid">
+                <div class="form-section">
+                    <h2>معلومات الأجر الأساسي</h2>
+                    
+                    <div class="input-group">
+                        <label for="wageType">نوع الأجر</label>
+                        <select id="wageType" tabindex="1">
+                            <option value="">-- اختر نوع الأجر --</option>
+                            <option value="daily">أجر يومي</option>
+                            <option value="monthly">أجر شهري</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="lastWage">الراتب الأساسي الأخير (دينار)</label>
+                        <input type="number" id="lastWage" min="0" step="0.01" required tabindex="2">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>الرواتب المستحقة</h2>
+                    
+                    <div class="input-group">
+                        <label for="contractType">نوع العقد</label>
+                        <select id="contractType" tabindex="3">
+                            <option value="">-- اختر نوع العقد --</option>
+                            <option value="indefinite">عقد غير محدد المدة</option>
+                            <option value="definite">عقد محدد المدة</option>
+                        </select>
+                    </div>
+                    
+                    <div class="contract-details" id="contractDetails">
+                        <h3>تفاصيل العقد المحدد المدة</h3>
+                        <div class="compact-row-3">
+                            <div class="input-group">
+                                <label for="contractDuration">مدة العقد (أشهر)</label>
+                                <input type="number" id="contractDuration" min="1" step="1" tabindex="4">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="workedMonths">الأشهر التي عملتها</label>
+                                <input type="number" id="workedMonths" min="0" step="1" tabindex="5">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="workedDays">الأيام التي عملتها</label>
+                                <input type="number" id="workedDays" min="0" max="30" step="1" tabindex="6">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="compact-row">
+                        <div class="input-group">
+                            <label for="unpaidMonths">أشهر مستحقة</label>
+                            <input type="number" id="unpaidMonths" min="0" step="1" tabindex="7">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="unpaidDays">أيام مستحقة</label>
+                            <input type="number" id="unpaidDays" min="0" step="1" tabindex="8">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="vacationDays">أيام إجازات مستحقة</label>
+                        <input type="number" id="vacationDays" min="0" step="1" tabindex="9">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>مدة الخدمة</h2>
+                    
+                    <div class="service-duration-group">
+                        <div class="input-group">
+                            <label for="serviceYears">السنوات</label>
+                            <input type="number" id="serviceYears" min="0" step="1" tabindex="10">
+                        </div>
+                        <div class="input-group">
+                            <label for="serviceMonths">الأشهر</label>
+                            <input type="number" id="serviceMonths" min="0" max="11" step="1" tabindex="11">
+                        </div>
+                        <div class="input-group">
+                            <label for="serviceDays">الأيام</label>
+                            <input type="number" id="serviceDays" min="0" max="30" step="1" tabindex="12">
+                        </div>
+                    </div>
+
+                    <div class="service-note" id="serviceNote">
+                        <strong>ملاحظة:</strong> يتم استخدام مدة الخدمة (السنوات، الأشهر، الأيام) لغايات احتساب بدل نهاية الخدمة في حال لم يكن العامل مشتركاً بالضمان الاجتماعي
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>تفاصيل إنهاء الخدمة</h2>
+                    
+                    <div class="checkbox-group" id="noticeMonthGroup">
+                        <input type="checkbox" id="noticeMonth" tabindex="13">
+                        <label for="noticeMonth">يستحق بدل شهر الإشعار</label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="socialSecurity">الضمان الاجتماعي</label>
+                        <select id="socialSecurity" tabindex="14">
+                            <option value="yes">نعم - مشترك</option>
+                            <option value="no">لا - غير مشترك</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="terminationType">سبب إنهاء الخدمة</label>
+                        <select id="terminationType" tabindex="15">
+                            <option value="mutual">إنهاء برضا الطرفين</option>
+                            <option value="indefinite">فصل تعسفي (عقد غير محدد)</option>
+                            <option value="definite">فصل تعسفي (عقد محدد)</option>
+                        </select>
+                    </div>
+
+                    <div class="checkbox-group" id="arbitraryDismissalGroup" style="display: none;">
+                        <input type="checkbox" id="arbitraryDismissal" tabindex="16">
+                        <label for="arbitraryDismissal">يستحق بدل فصل تعسفي</label>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>العمل الإضافي</h2>
+                    
+                    <div class="compact-row">
+                        <div class="input-group">
+                            <label for="overtimeHours">ساعات إضافية/يوم</label>
+                            <input type="number" id="overtimeHours" min="0" step="0.5" tabindex="17">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="overtimeDays">أيام عمل إضافي</label>
+                            <input type="number" id="overtimeDays" min="0" step="1" tabindex="18">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>العمل في العطل والأعياد</h2>
+                    
+                    <div class="compact-row">
+                        <div class="input-group">
+                            <label for="holidayDays">أيام العطل الرسمية</label>
+                            <input type="number" id="holidayDays" min="0" step="1" tabindex="19">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="fridayDays">أيام الجمعة</label>
+                            <input type="number" id="fridayDays" min="0" step="1" tabindex="20">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="help-text">اختر هذا الخيار إذا كنت معلم/معلمة لتحصل على علاوة التعليم (10 دنانير). إذا كنت إدارياً فلا تختر هذا الخيار.</div>
-        </div>
-        
-        <div class="form-group">
-            <label for="futureYears">عدد السنوات المستقبلية للحساب:</label>
-            <input type="number" id="futureYears" min="1" max="10" value="3" class="tabable-field">
-            <div class="help-text">أدخل عدد السنوات التي تريد رؤية توقعات الراتب فيها مستقبلاً (من 1 إلى 10 سنوات)</div>
-        </div>
-        
-        <button class="btn" onclick="calculateSalary()" id="calculateBtn">احسب الرواتب الحالية والمستقبلية</button>
-        
-        <div class="result" id="result">
-            <h3>الراتب الشهري الإجمالي</h3>
-            <div class="salary-amount" id="salaryAmount">0 دينار</div>
             
-            <div class="breakdown">
-                <div class="breakdown-item">
-                    <span>الراتب الأساسي:</span>
-                    <span id="baseSalary">0 دينار</span>
-                </div>
-                <div class="breakdown-item">
-                    <span>بدل الخبرة:</span>
-                    <span id="experienceAllowance">0 دينار</span>
-                </div>
-                <div class="breakdown-item">
-                    <span>علاوة التعليم:</span>
-                    <span id="educationAllowance">0 دينار</span>
-                </div>
-                <div class="breakdown-item">
-                    <span>الزيادة السنوية (5%):</span>
-                    <span id="annualIncrease">0 دينار</span>
-                </div>
-                <div class="breakdown-item">
-                    <span>الراتب الإجمالي:</span>
-                    <span id="totalSalary">0 دينار</span>
-                </div>
+            <div class="action-buttons">
+                <button type="submit" tabindex="21">احسب المستحقات</button>
+                <button type="button" class="reset-btn" id="resetBtn" tabindex="22">تفريغ الحقول</button>
+            </div>
+        </form>
+        
+        <div class="result-section" id="resultSection">
+            <h2>نتائج حساب المستحقات</h2>
+            <div id="resultContent">
+                <!-- سيتم ملء النتائج هنا بواسطة JavaScript -->
             </div>
             
-            <div class="social-security">
-                <h4>اشتراكات الضمان الاجتماعي</h4>
-                <div class="social-security-item">
-                    <span>الاشتراك الكلي (21.75%):</span>
-                    <span id="totalSocialSecurity">0 دينار</span>
-                </div>
-                <div class="social-security-item">
-                    <span>حصة العامل (7.5%):</span>
-                    <span id="employeeShare">0 دينار</span>
-                </div>
-                <div class="social-security-item">
-                    <span>حصة صاحب العمل (14.25%):</span>
-                    <span id="employerShare">0 دينار</span>
-                </div>
-                <div class="social-security-item">
-                    <span>صافي الراتب بعد خصم الضمان:</span>
-                    <span id="netSalary">0 دينار</span>
-                </div>
+            <div class="explanation" id="explanationSection">
+                <!-- سيتم ملء الشرح هنا بواسطة JavaScript -->
             </div>
             
-            <div class="future-years" id="futureYearsSection" style="display: none;">
-                <h3 style="margin-top: 25px; text-align: center;">التوقعات المستقبلية للرواتب</h3>
-                <div id="futureYearsResults"></div>
+            <!-- التنبيه المطلوب -->
+            <div class="legal-notice">
+                تنبيه: هذه الحاسبة هي أداة إسترشادية فقط، وهي غير ملزمة لأي جهة. يوصى دائماً بإستشارة جهة مختصة للحصول على نتائج دقيقة.
+            </div>
+            
+            <div class="action-buttons">
+                <button type="button" class="print-btn" id="printBtn">طباعة النتائج</button>
             </div>
         </div>
-        
-        <!-- إضافة حقوق النشر في أسفل الصفحة -->
-        <div class="copyright">
-            تم إنشاء هذه الصفحة بواسطة المحامي محمد الشوحه<br>
-            جميع الحقوق محفوظة © 2023 - هذه الصفحة محمية بموجب قوانين حقوق النشر والملكية الفكرية
+
+        <div class="footer">
+            <p>تم إنشاء هذه الصفحة بواسطة المحامي محمد الشوحه</p>
+            <p class="law-reference">تم إنشاء هذه الحاسبة وفقاً لقانون العمل الأردني رقم 8 لسنة 1996 وتعديلاته</p>
+            <p class="copyright">جميع الحقوق محفوظة © 2023 - هذه الصفحة محمية بموجب قوانين حقوق النشر والملكية الفكرية</p>
         </div>
     </div>
 
+    <!-- إضافة مكتبة particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
-        // بيانات الحد الأدنى للأجور حسب السنة
-        const minWages = {
-            '2018': 220,
-            '2019': 220,
-            '2020': 220,
-            '2021': 260,
-            '2022': 260,
-            '2023': 260,
-            '2024': 260,
-            '2025': 290,
-            '2026': 290,
-            '2027': 290,
-            '2028': 290,
-            '2029': 290,
-            '2030': 290
-        };
-        
-        // نسب الضمان الاجتماعي
-        const socialSecurityRates = {
-            total: 0.2175,    // 21.75%
-            employee: 0.075,  // 7.5%
-            employer: 0.1425  // 14.25%
-        };
-        
-        // الحقول التي يمكن التنقل بينها باستخدام Enter
-        const tabableFields = [
-            'year', 'experience', 'schoolYears', 'isTeacher', 'futureYears'
-        ];
-        
-        // دالة للانتقال للحقل التالي عند الضغط على Enter
-        function handleEnterKey(event, currentIndex) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                
-                // إذا كنا في الحقل الأخير، ننقر على زر الحساب
-                if (currentIndex === tabableFields.length - 1) {
-                    document.getElementById('calculateBtn').click();
-                } else {
-                    // الانتقال للحقل التالي
-                    const nextField = document.getElementById(tabableFields[currentIndex + 1]);
-                    if (nextField) {
-                        nextField.focus();
-                        // إذا كان الحقل التالي هو checkbox، نحدده
-                        if (nextField.type === 'checkbox') {
-                            nextField.checked = !nextField.checked;
+        // تهيئة الجسيمات المتحركة مع نقاط بيضاء أكثر
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 200,  // زيادة عدد الجسيمات
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#d4af37"  // جعل الجسيمات ذهبية
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        },
+                        polygon: {
+                            nb_sides: 5
+                        }
+                    },
+                    opacity: {
+                        value: 0.8,  // زيادة الشفافية
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 2.5,  // تصغير حجم الجسيمات
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 120,  // تقليل المسافة بين الروابط
+                        color: "#d4af37",  // جعل الروابط ذهبية
+                        opacity: 0.4,  // زيادة شفافية الروابط
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 3,  // زيادة سرعة الحركة
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
                         }
                     }
-                }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "repulse"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 400,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 8,
+                            speed: 3
+                        },
+                        repulse: {
+                            distance: 100,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 8  // زيادة عدد الجسيمات المضاف عند النقر
+                        },
+                        remove: {
+                            particles_nb: 2
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+
+        // إضافة وظيفة الطباعة
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+
+        // باقي الكود JavaScript يبقى كما هو
+        document.getElementById('rightsCalculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateRights();
+        });
+
+        // إضافة حدث لزر تفريغ الحقول
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.getElementById('rightsCalculator').reset();
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('contractDetails').style.display = 'none';
+            document.getElementById('serviceNote').style.display = 'none';
+            document.getElementById('socialSecurityDetails').style.display = 'none';
+            document.getElementById('noticeInfo').style.display = 'none';
+            document.getElementById('noticeMonthGroup').classList.remove('disabled');
+            document.getElementById('noticeMonth').disabled = false;
+            document.getElementById('arbitraryDismissalGroup').style.display = 'none';
+            document.getElementById('arbitraryDismissal').checked = false;
+            
+            // إعادة تعيين نوع الأجر ونوع العقد إلى القيمة الافتراضية
+            document.getElementById('wageType').value = "";
+            document.getElementById('contractType').value = "";
+        });
+
+        // التحكم في إظهار/إخفاء تفاصيل العقد المحدد المدة
+        document.getElementById('contractType').addEventListener('change', function() {
+            const contractDetails = document.getElementById('contractDetails');
+            const serviceNote = document.getElementById('serviceNote');
+            const noticeMonthGroup = document.getElementById('noticeMonthGroup');
+            const noticeMonth = document.getElementById('noticeMonth');
+            const arbitraryDismissalGroup = document.getElementById('arbitraryDismissalGroup');
+            
+            if (this.value === 'definite') {
+                contractDetails.style.display = 'block';
+                serviceNote.style.display = 'block'; // إظهار الملاحظة فقط عند اختيار عقد محدد المدة
+                noticeMonthGroup.classList.add('disabled');
+                noticeMonth.checked = false;
+                noticeMonth.disabled = true;
+                document.getElementById('terminationType').value = 'definite';
+                arbitraryDismissalGroup.style.display = 'none';
+                document.getElementById('arbitraryDismissal').checked = false;
+            } else {
+                contractDetails.style.display = 'none';
+                serviceNote.style.display = 'none'; // إخفاء الملاحظة عند اختيار عقد غير محدد المدة
+                noticeMonthGroup.classList.remove('disabled');
+                noticeMonth.disabled = false;
+                document.getElementById('terminationType').value = 'indefinite';
+                updateArbitraryDismissalGroup();
+            }
+        });
+
+        // التحكم في إظهار/إخفاء خيار بدل الفصل التعسفي
+        document.getElementById('terminationType').addEventListener('change', function() {
+            updateArbitraryDismissalGroup();
+        });
+
+        function updateArbitraryDismissalGroup() {
+            const arbitraryDismissalGroup = document.getElementById('arbitraryDismissalGroup');
+            const contractType = document.getElementById('contractType').value;
+            const terminationType = document.getElementById('terminationType').value;
+            
+            if (contractType === 'indefinite' && terminationType === 'indefinite') {
+                arbitraryDismissalGroup.style.display = 'flex';
+            } else {
+                arbitraryDismissalGroup.style.display = 'none';
+                document.getElementById('arbitraryDismissal').checked = false;
             }
         }
-        
-        // تهيئة أحداث لوحة المفاتيح للحقول
-        function initKeyboardNavigation() {
-            tabableFields.forEach((fieldId, index) => {
-                const field = document.getElementById(fieldId);
-                if (field) {
-                    field.addEventListener('keydown', (event) => {
-                        handleEnterKey(event, index);
-                    });
+
+        // إضافة وظيفة للانتقال بين الحقول عند الضغط على Enter
+        document.querySelectorAll('input, select').forEach((field, index, fields) => {
+            field.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const nextIndex = index + 1;
+                    if (nextIndex < fields.length) {
+                        fields[nextIndex].focus();
+                    }
                 }
             });
-        }
+        });
         
-        // دالة لحساب الحد الأقصى للخبرة المسموح بها
-        function getMaxAllowedExperience(year) {
-            if (!year) return 0;
-            const currentYear = parseInt(year);
-            // الحد الأقصى للخبرة هو عدد السنوات من 2018 إلى السنة الحالية
-            return Math.max(0, currentYear - 2018);
-        }
-        
-        // دالة للتحقق من صحة سنوات الخبرة
-        function validateExperience(year, experience) {
-            const maxAllowed = getMaxAllowedExperience(year);
-            if (experience > maxAllowed) {
-                document.getElementById('experienceWarning').textContent = 
-                    `تنبيه: سيتم احتساب ${maxAllowed} سنوات فقط (الحد الأقصى المسموح به من 2018 إلى ${year})`;
-                document.getElementById('experienceWarning').style.display = 'block';
-                return maxAllowed;
-            } else {
-                document.getElementById('experienceWarning').style.display = 'none';
-                return experience;
-            }
-        }
-        
-        // دالة لحساب اشتراكات الضمان الاجتماعي
-        function calculateSocialSecurity(totalSalary) {
-            return {
-                total: totalSalary * socialSecurityRates.total,
-                employee: totalSalary * socialSecurityRates.employee,
-                employer: totalSalary * socialSecurityRates.employer,
-                net: totalSalary - (totalSalary * socialSecurityRates.employee)
-            };
-        }
-        
-        function calculateSalary() {
-            // التحقق من أن السنة محددة
-            const yearSelect = document.getElementById('year');
-            if (!yearSelect.value) {
-                alert('يرجى اختيار السنة أولاً');
-                yearSelect.focus();
+        // التعديل: دوال الحساب المعدلة لحساب بدل الفصل التعسفي بشكل صحيح
+        function calculateRights() {
+            // الحصول على القيم من النموذج
+            const wageType = document.getElementById('wageType').value;
+            const lastWage = parseFloat(document.getElementById('lastWage').value) || 0;
+            const contractType = document.getElementById('contractType').value;
+            const unpaidMonths = parseInt(document.getElementById('unpaidMonths').value) || 0;
+            const unpaidDays = parseInt(document.getElementById('unpaidDays').value) || 0;
+            const vacationDays = parseInt(document.getElementById('vacationDays').value) || 0;
+            const serviceYears = parseInt(document.getElementById('serviceYears').value) || 0;
+            const serviceMonths = parseInt(document.getElementById('serviceMonths').value) || 0;
+            const serviceDays = parseInt(document.getElementById('serviceDays').value) || 0;
+            const noticeMonth = document.getElementById('noticeMonth').checked;
+            const terminationType = document.getElementById('terminationType').value;
+            const socialSecurity = document.getElementById('socialSecurity').value;
+            const overtimeHours = parseFloat(document.getElementById('overtimeHours').value) || 0;
+            const overtimeDays = parseInt(document.getElementById('overtimeDays').value) || 0;
+            const holidayDays = parseInt(document.getElementById('holidayDays').value) || 0;
+            const fridayDays = parseInt(document.getElementById('fridayDays').value) || 0;
+            const contractDuration = parseInt(document.getElementById('contractDuration').value) || 0;
+            const workedMonths = parseInt(document.getElementById('workedMonths').value) || 0;
+            const workedDays = parseInt(document.getElementById('workedDays').value) || 0;
+            const arbitraryDismissal = document.getElementById('arbitraryDismissal').checked;
+            
+            // التحقق من اختيار نوع الأجر ونوع العقد
+            if (!wageType) {
+                alert("يرجى اختيار نوع الأجر");
+                document.getElementById('wageType').focus();
                 return;
             }
             
-            // الحصول على القيم من النموذج
-            const startYear = parseInt(document.getElementById('year').value);
-            let experience = parseInt(document.getElementById('experience').value) || 0;
-            const schoolYears = parseInt(document.getElementById('schoolYears').value) || 0;
-            const isTeacher = document.getElementById('isTeacher').checked;
-            const futureYears = parseInt(document.getElementById('futureYears').value) || 3;
+            if (!contractType) {
+                alert("يرجى اختيار نوع العقد");
+                document.getElementById('contractType').focus();
+                return;
+            }
             
-            // التحقق من صحة سنوات الخبرة وتعديلها إذا لزم الأمر
-            experience = validateExperience(startYear, experience);
+            // حساب إجمالي مدة الخدمة بالأشهر مع الأيام
+            const totalServiceMonths = (serviceYears * 12) + serviceMonths + (serviceDays / 30);
             
-            // حساب الراتب للسنة الحالية
-            const currentSalary = calculateCurrentYearSalary(startYear, experience, schoolYears, isTeacher);
+            // حساب الأجر اليومي والشهري (باستخدام 30 يومًا)
+            const dailyWage = wageType === 'daily' ? lastWage : lastWage / 30;
+            const monthlyWage = wageType === 'monthly' ? lastWage : lastWage * 30;
             
-            // حساب الرواتب المستقبلية
-            calculateFutureSalaries(startYear, experience, schoolYears, isTeacher, futureYears, currentSalary);
+            // حساب الأجر الساعي (8 ساعات عمل يومياً)
+            const hourlyWage = dailyWage / 8;
+            
+            // حساب الرواتب المستحقة (أشهر + أيام)
+            const unpaidSalaries = (unpaidMonths * monthlyWage) + (unpaidDays * dailyWage);
+            
+            // حساب بدل الإجازات المستحقة
+            const vacationPay = vacationDays * dailyWage;
+            
+            // حساب بدل نهاية الخدمة
+            let endOfServiceCompensation = 0;
+            let explanation = "";
+            let socialSecurityNote = "";
+            
+            // حساب بدل الفصل التعسفي إذا تم اختياره
+            let arbitraryDismissalCompensation = 0;
+            let arbitraryDismissalExplanation = "";
+            
+            if (arbitraryDismissal && contractType === 'indefinite' && terminationType === 'indefinite') {
+                // التعديل: حساب بدل الفصل التعسفي حسب القواعد الصحيحة
+                arbitraryDismissalCompensation = calculateArbitraryDismissalCompensation(monthlyWage, serviceYears, serviceMonths, serviceDays);
+                arbitraryDismissalExplanation = getArbitraryDismissalExplanation(monthlyWage, serviceYears, serviceMonths, serviceDays, arbitraryDismissalCompensation);
+            }
+            
+            // التعديل الأول: إذا كان العامل مشتركاً بالضمان الاجتماعي، فبدل نهاية الخدمة يكون صفر
+            if (socialSecurity === 'yes') {
+                // مشترك بالضمان الاجتماعي - بدل نهاية الخدمة يكون صفر
+                endOfServiceCompensation = 0;
+                explanation = "تعويض نهاية الخدمة: 0 دينار (العامل مشترك بالضمان الاجتماعي)";
+                socialSecurityNote = "ملاحظة: حسب قانون الضمان الاجتماعي الأردني، يحصل العامل المشترك على مستحقاته من الضمان الاجتماعي وليس من صاحب العمل";
+                
+            } else {
+                // غير مشترك بالضمان الاجتماعي - أجر شهر عن كل سنة
+                // حساب المكافأة بناءً على إجمالي مدة الخدمة بالأشهر
+                const monthlyCompensation = monthlyWage / 12;
+                endOfServiceCompensation = monthlyCompensation * totalServiceMonths;
+                explanation = `تعويض نهاية الخدمة (غير مشترك بالضمان): (${monthlyWage.toFixed(2)} ÷ 12) × ${totalServiceMonths.toFixed(2)} شهر = ${endOfServiceCompensation.toFixed(2)} دينار`;
+                socialSecurityNote = "ملاحظة: حسب المادة (73) من قانون العمل الأردني، يحق للعامل غير المشترك بالضمان الاجتماعي الحصول على تعويض نهاية الخدمة بواقع أجر شهر عن كل سنة عمل";
+            }
+            
+            // حساب بدل شهر الإشعار (راتب شهر كامل)
+            let noticeAllowance = 0;
+            let noticeNote = "";
+            if (contractType === 'indefinite' && noticeMonth) {
+                noticeAllowance = monthlyWage;
+                noticeNote = "ملاحظة: بدل شهر الإشعار يساوي راتب شهر كامل";
+            } else if (contractType === 'definite' && terminationType === 'definite') {
+                // لا يستحق بدل شهر الإشعار في حالة الفصل التعسفي للعقد محدد المدة
+                noticeAllowance = 0;
+            } else if (noticeMonth) {
+                noticeAllowance = monthlyWage;
+                noticeNote = "ملاحظة: بدل شهر الإشعار يساوي راتب شهر كامل";
+            }
+            
+            // حساب العمل الإضافي (125% من الأجر الساعي)
+            let overtimePay = 0;
+            if (overtimeHours > 0 && overtimeDays > 0) {
+                // 125% من الأجر الساعي لجميع ساعات العمل الإضافي
+                const totalOvertimeHours = overtimeHours * overtimeDays;
+                overtimePay = totalOvertimeHours * hourlyWage * 1.25;
+            }
+            
+            // حساب العمل في العطل والأعياد
+            // معدل العمل في العطل: 150%
+            const holidayPay = holidayDays * dailyWage * 1.5;
+            
+            // حساب العمل في أيام الجمعة
+            // معدل العمل في الجمعة: 150%
+            const fridayPay = fridayDays * dailyWage * 1.5;
+            
+            // إجمالي المستحقات
+            const totalRights = unpaidSalaries + vacationPay + endOfServiceCompensation + noticeAllowance + overtimePay + holidayPay + fridayPay + arbitraryDismissalCompensation;
+            
+            // عرض النتائج
+            displayResults(
+                unpaidSalaries, 
+                vacationPay, 
+                endOfServiceCompensation, 
+                noticeAllowance, 
+                overtimePay, 
+                holidayPay, 
+                fridayPay, 
+                arbitraryDismissalCompensation,
+                totalRights,
+                explanation,
+                noticeNote,
+                socialSecurityNote,
+                arbitraryDismissalExplanation,
+                vacationDays
+            );
             
             // إظهار قسم النتائج
-            document.getElementById('result').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'block';
         }
         
-        function calculateCurrentYearSalary(year, experience, schoolYears, isTeacher) {
-            // الحصول على الحد الأدنى للأجور للسنة المحددة
-            const baseSalary = minWages[year] || minWages['2025'];
+        // التعديل: دالة جديدة لحساب بدل الفصل التعسفي حسب القواعد الصحيحة
+        function calculateArbitraryDismissalCompensation(monthlyWage, serviceYears, serviceMonths, serviceDays) {
+            // حساب بدل الفصل التعسفي: نصف شهر عن كل سنة خدمة بما لا يقل عن شهرين
             
-            // حساب بدل الخبرة
-            const experienceAllowance = experience * 3;
+            // حساب التعويض عن السنوات
+            const yearsCompensation = (monthlyWage / 2) * serviceYears;
             
-            // حساب علاوة التعليم
-            const educationAllowance = isTeacher ? 10 : 0;
+            // حساب التعويض عن الأشهر
+            const monthsCompensation = (monthlyWage / 2) * (serviceMonths / 12);
             
-            // حساب الراتب الإجمالي قبل الزيادة السنوية
-            const salaryBeforeIncrease = baseSalary + experienceAllowance + educationAllowance;
+            // حساب التعويض عن الأيام
+            const daysCompensation = (monthlyWage / 2) * (serviceDays / 365);
             
-            // حساب الزيادة السنوية (5%) إذا أكمل سنة على الأقل في المدرسة الحالية
-            let annualIncrease = 0;
-            if (schoolYears >= 1) {
-                annualIncrease = salaryBeforeIncrease * 0.05;
-                // تطبيق الحد الأقصى للزيادة السنوية (40 دينار)
-                if (annualIncrease > 40) {
-                    annualIncrease = 40;
-                }
+            // إجمالي التعويض
+            let totalCompensation = yearsCompensation + monthsCompensation + daysCompensation;
+            
+            // الحد الأدنى للتعويض هو أجر شهرين
+            const minimumCompensation = monthlyWage * 2;
+            
+            // إذا كان التعويض أقل من الحد الأدنى، نستخدم الحد الأدنى
+            if (totalCompensation < minimumCompensation) {
+                totalCompensation = minimumCompensation;
             }
             
-            // حساب الراتب الإجمالي النهائي
-            const totalSalary = salaryBeforeIncrease + annualIncrease;
-            
-            // حساب اشتراكات الضمان الاجتماعي
-            const socialSecurity = calculateSocialSecurity(totalSalary);
-            
-            // عرض النتائج للسنة الحالية
-            document.getElementById('baseSalary').textContent = baseSalary + ' دينار';
-            document.getElementById('experienceAllowance').textContent = experienceAllowance + ' دينار';
-            document.getElementById('educationAllowance').textContent = educationAllowance + ' دينار';
-            document.getElementById('annualIncrease').textContent = annualIncrease.toFixed(2) + ' دينار';
-            document.getElementById('totalSalary').textContent = totalSalary.toFixed(2) + ' دينار';
-            document.getElementById('salaryAmount').textContent = totalSalary.toFixed(2) + ' دينار (' + year + ')';
-            
-            // عرض نتائج الضمان الاجتماعي
-            document.getElementById('totalSocialSecurity').textContent = socialSecurity.total.toFixed(2) + ' دينار';
-            document.getElementById('employeeShare').textContent = socialSecurity.employee.toFixed(2) + ' دينار';
-            document.getElementById('employerShare').textContent = socialSecurity.employer.toFixed(2) + ' دينار';
-            document.getElementById('netSalary').textContent = socialSecurity.net.toFixed(2) + ' دينار';
-            
-            return totalSalary;
+            return totalCompensation;
         }
         
-        function calculateFutureSalaries(startYear, startExperience, startSchoolYears, isTeacher, futureYears, currentSalary) {
-            const futureYearsResults = document.getElementById('futureYearsResults');
-            futureYearsResults.innerHTML = '';
+        // التعديل: دالة جديدة لشرح حساب بدل الفصل التعسفي
+        function getArbitraryDismissalExplanation(monthlyWage, serviceYears, serviceMonths, serviceDays, compensation) {
+            let explanation = "بدل الفصل التعسفي: ";
             
-            let currentYear = parseInt(startYear);
-            let currentExperience = startExperience;
-            let currentSchoolYears = startSchoolYears;
+            // حساب التعويض عن السنوات
+            const yearsCompensation = (monthlyWage / 2) * serviceYears;
             
-            // نبدأ من الراتب الحالي
-            let previousYearSalary = currentSalary;
+            // حساب التعويض عن الأشهر
+            const monthsCompensation = (monthlyWage / 2) * (serviceMonths / 12);
             
-            for (let i = 1; i <= futureYears; i++) {
-                const futureYear = currentYear + i;
-                
-                // تحديث الخبرة مع مرور السنوات
-                currentExperience += 1;
-                
-                // التحقق من الحد الأقصى للخبرة المسموح بها
-                const maxAllowedExperience = getMaxAllowedExperience(futureYear);
-                currentExperience = Math.min(currentExperience, maxAllowedExperience);
-                
-                currentSchoolYears += 1;
-                
-                // الخطوة 1: نضيف بدل الخبرة للعام الجديد (3 دنانير)
-                let salaryWithNewExperience = previousYearSalary + 3;
-                
-                // الخطوة 2: نحسب الزيادة السنوية (5%) على المجموع الجديد
-                let annualIncrease = salaryWithNewExperience * 0.05;
-                if (annualIncrease > 40) {
-                    annualIncrease = 40;
-                }
-                
-                // الخطوة 3: الراتب النهائي للسنة الجديدة
-                const totalSalary = salaryWithNewExperience + annualIncrease;
-                
-                // حساب اشتراكات الضمان الاجتماعي للسنة المستقبلية
-                const socialSecurity = calculateSocialSecurity(totalSalary);
-                
-                // تحديث الراتب السابق للحساب التراكمي في السنة التالية
-                previousYearSalary = totalSalary;
-                
-                // إنشاء بطاقة السنة المستقبلية
-                const yearCard = document.createElement('div');
-                yearCard.className = 'year-card';
-                
-                yearCard.innerHTML = `
-                    <div class="year-header">
-                        <span>سنة ${futureYear}</span>
-                        <span>الخبرة: ${currentExperience} سنة</span>
-                    </div>
-                    <div class="year-salary">${totalSalary.toFixed(2)} دينار</div>
-                    <div style="font-size: 14px; color: #666;">
-                        <div>الراتب السابق: ${previousYearSalary.toFixed(2)} دينار</div>
-                        <div>بدل الخبرة الجديد: 3 دنانير</div>
-                        <div>المجموع قبل الزيادة: ${salaryWithNewExperience.toFixed(2)} دينار</div>
-                        <div>الزيادة السنوية (5%): ${annualIncrease.toFixed(2)} دينار</div>
-                        <div style="margin-top: 8px; font-weight: bold; color: #333;">السنوات في المدرسة: ${currentSchoolYears} سنة</div>
-                    </div>
-                    <div class="year-social-security">
-                        <div style="font-weight: bold; margin-bottom: 5px;">اشتراكات الضمان الاجتماعي:</div>
-                        <div class="social-security-item">
-                            <span>الاشتراك الكلي (21.75%):</span>
-                            <span>${socialSecurity.total.toFixed(2)} دينار</span>
-                        </div>
-                        <div class="social-security-item">
-                            <span>حصة العامل (7.5%):</span>
-                            <span>${socialSecurity.employee.toFixed(2)} دينار</span>
-                        </div>
-                        <div class="social-security-item">
-                            <span>حصة صاحب العمل (14.25%):</span>
-                            <span>${socialSecurity.employer.toFixed(2)} دينار</span>
-                        </div>
-                        <div class="social-security-item" style="font-weight: bold;">
-                            <span>صافي الراتب:</span>
-                            <span>${socialSecurity.net.toFixed(2)} دينار</span>
-                        </div>
-                    </div>
-                `;
-                
-                futureYearsResults.appendChild(yearCard);
+            // حساب التعويض عن الأيام
+            const daysCompensation = (monthlyWage / 2) * (serviceDays / 365);
+            
+            // إجمالي التعويض
+            let totalCompensation = yearsCompensation + monthsCompensation + daysCompensation;
+            
+            // الحد الأدنى للتعويض هو أجر شهرين
+            const minimumCompensation = monthlyWage * 2;
+            
+            explanation += `(نصف شهر عن كل سنة خدمة) = (${monthlyWage.toFixed(2)} ÷ 2) × ${serviceYears} سنة`;
+            
+            if (serviceMonths > 0) {
+                explanation += ` + (${monthlyWage.toFixed(2)} ÷ 2) × ${serviceMonths} شهر ÷ 12`;
             }
             
-            // إظهار قسم السنوات المستقبلية
-            document.getElementById('futureYearsSection').style.display = 'block';
+            if (serviceDays > 0) {
+                explanation += ` + (${monthlyWage.toFixed(2)} ÷ 2) × ${serviceDays} يوم ÷ 365`;
+            }
+            
+            explanation += ` = ${totalCompensation.toFixed(2)} دينار`;
+            
+            // إذا كان التعويض أقل من الحد الأدنى، نستخدم الحد الأدنى
+            if (totalCompensation < minimumCompensation) {
+                explanation += ` (الحد الأدنى هو أجر شهرين = ${minimumCompensation.toFixed(2)} دينار)`;
+            }
+            
+            return explanation;
         }
         
-        // حساب الراتب تلقائيًا عند تغيير أي حقل
-        document.getElementById('year').addEventListener('change', calculateSalary);
-        document.getElementById('experience').addEventListener('input', calculateSalary);
-        document.getElementById('schoolYears').addEventListener('input', calculateSalary);
-        document.getElementById('isTeacher').addEventListener('change', calculateSalary);
-        document.getElementById('futureYears').addEventListener('input', calculateSalary);
-        
-        // تهيئة التنقل بلوحة المفاتيح عند تحميل الصفحة
-        window.onload = function() {
-            initKeyboardNavigation();
-        };
+        // دالة لعرض النتائج
+        function displayResults(
+            unpaidSalaries, 
+            vacationPay, 
+            endOfServiceCompensation, 
+            noticeAllowance, 
+            overtimePay, 
+            holidayPay, 
+            fridayPay, 
+            arbitraryDismissalCompensation,
+            totalRights,
+            explanation,
+            noticeNote,
+            socialSecurityNote,
+            arbitraryDismissalExplanation,
+            vacationDays
+        ) {
+            const resultContent = document.getElementById('resultContent');
+            let html = '';
+            
+            html += '<div class="result-item">';
+            html += '<span>الرواتب المستحقة:</span>';
+            html += `<span>${unpaidSalaries.toFixed(2)} دينار</span>`;
+            html += '</div>';
+            
+            html += '<div class="result-item">';
+            html += '<span>بدل الإجازات المستحقة:</span>';
+            html += `<span>${vacationPay.toFixed(2)} دينار</span>`;
+            html += '</div>';
+            
+            html += '<div class="result-item">';
+            html += '<span>بدل نهاية الخدمة:</span>';
+            html += `<span>${endOfServiceCompensation.toFixed(2)} دينار</span>`;
+            html += '</div>';
+            
+            if (noticeAllowance > 0) {
+                html += '<div class="result-item">';
+                html += '<span>بدل شهر الإشعار:</span>';
+                html += `<span>${noticeAllowance.toFixed(2)} دينار</span>`;
+                html += '</div>';
+            }
+            
+            if (overtimePay > 0) {
+                html += '<div class="result-item">';
+                html += '<span>بدل العمل الإضافي:</span>';
+                html += `<span>${overtimePay.toFixed(2)} دينار</span>`;
+                html += '</div>';
+            }
+            
+            if (holidayPay > 0) {
+                html += '<div class="result-item">';
+                html += '<span>بدل العمل في العطل الرسمية:</span>';
+                html += `<span>${holidayPay.toFixed(2)} دينار</span>`;
+                html += '</div>';
+            }
+            
+            if (fridayPay > 0) {
+                html += '<div class="result-item">';
+                html += '<span>بدل العمل في أيام الجمعة:</span>';
+                html += `<span>${fridayPay.toFixed(2)} دينار</span>`;
+                html += '</div>';
+            }
+            
+            if (arbitraryDismissalCompensation > 0) {
+                html += '<div class="result-item">';
+                html += '<span>بدل الفصل التعسفي:</span>';
+                html += `<span>${arbitraryDismissalCompensation.toFixed(2)} دينار</span>`;
+                html += '</div>';
+            }
+            
+            html += '<div class="result-item">';
+            html += '<span>الإجمالي:</span>';
+            html += `<span>${totalRights.toFixed(2)} دينار</span>`;
+            html += '</div>';
+            
+            resultContent.innerHTML = html;
+            
+            // إخفاء قسم شرح الحسابات كما هو مطلوب
+            document.getElementById('explanationSection').style.display = 'none';
+        }
     </script>
 </body>
 </html>
